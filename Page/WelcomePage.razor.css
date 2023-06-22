@@ -4,6 +4,10 @@
     flex-direction: column;
 }
 
+header {
+    overflow: hidden;
+}
+
 main {
     flex: 1;
 }

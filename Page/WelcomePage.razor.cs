@@ -1,16 +1,23 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Components;
+using System.Diagnostics;
 
 namespace Photolog.Page
 {
     public partial class WelcomePage
     {
+
+        [Inject]
+        private NavigationManager NavManager { get; set; }
+
         private bool clickedButton = false;
 
-        private void Click()
+        private async Task Click()
         {
             clickedButton = true;
             Console.WriteLine("button clicked");
             StateHasChanged();
+            await Task.Delay(1000);
+            NavManager.NavigateTo("/");
         }
 
         private string GetStyleClass()
