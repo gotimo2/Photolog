@@ -8,7 +8,7 @@ namespace Photolog.Page
         [Inject]
         private NavigationManager navManager { get; set; }
 
-        private bool HasHadWelcome = false;
+        private bool HasHadWelcome = true;
 
 
         protected override Task OnInitializedAsync()
@@ -19,6 +19,11 @@ namespace Photolog.Page
             }
 
             return base.OnInitializedAsync();
+        }
+
+        private void OpenCamera()
+        {
+            navManager.NavigateTo("/camera");
         }
 
     }
