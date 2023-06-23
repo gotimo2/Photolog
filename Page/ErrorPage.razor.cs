@@ -17,11 +17,12 @@ namespace Photolog.Page
 
         private string errorMessage;
 
-        private void Click()
+        private async Task Click()
         {
             acknowledged = true;
-            navManager.NavigateTo("/");
             StateHasChanged();
+            await Task.Delay(1000);
+            navManager.NavigateTo("/");
         }
 
         private string GetStyleClass()

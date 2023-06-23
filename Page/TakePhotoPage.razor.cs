@@ -19,26 +19,17 @@ namespace Photolog.Page
 
         private async Task TakePhoto()
         {
+            imageSource = null;
             await EnsurePhotoPossible();
-
-
             FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-
             if (photo == null)
             {
                 NavManager.NavigateTo("/");
+                return;
             }
-
-
             imageSource = await SaveToCache(photo);
-
-            Console.WriteLine("Local path: " + imageSource);
-
-
             StateHasChanged();
-
             await base.OnInitializedAsync();
-
         }
 
 
