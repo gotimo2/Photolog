@@ -21,6 +21,7 @@ namespace Photolog.Page
         {
             acknowledged = true;
             navManager.NavigateTo("/");
+            StateHasChanged();
         }
 
         private string GetStyleClass()

@@ -6,7 +6,7 @@ namespace Photolog.Page
     {
 
         [Inject]
-        private NavigationManager navManager { get; set; }
+        private NavigationManager NavManager { get; set; }
 
         private bool HasHadWelcome = true;
 
@@ -15,7 +15,7 @@ namespace Photolog.Page
         {
             if (!HasHadWelcome)
             {
-                navManager.NavigateTo("/welcome");
+                NavManager.NavigateTo("/welcome");
             }
 
             return base.OnInitializedAsync();
@@ -23,7 +23,7 @@ namespace Photolog.Page
 
         private void OpenCamera()
         {
-            navManager.NavigateTo("/camera");
+            NavManager.NavigateTo("/camera");
         }
 
     }

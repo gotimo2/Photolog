@@ -14,7 +14,6 @@ namespace Photolog.Page
         private async Task Click()
         {
             clickedButton = true;
-            Console.WriteLine("button clicked");
             StateHasChanged();
             await Task.Delay(1000);
             NavManager.NavigateTo("/");
