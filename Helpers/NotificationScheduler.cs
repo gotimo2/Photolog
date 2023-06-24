@@ -37,5 +37,10 @@ namespace Photolog.Helpers
             await LocalNotificationCenter.Current.Show(lastRequest);
         }
 
+        public static void closeNotification()
+        {
+            lastRequest.Cancel();
+        }
+
     }
 }

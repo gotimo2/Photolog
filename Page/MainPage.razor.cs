@@ -27,10 +27,20 @@ namespace Photolog.Page
 
         private async Task OpenCamera()
         {
+            await goTo("/camera");
+        }
+
+        private async Task GoToSettings()
+        {
+            await goTo("/settings");
+        }
+
+        private async Task goTo(string path)
+        {
             ClickedButton = true;
             StateHasChanged();
             await Task.Delay(1000);
-            NavManager.NavigateTo("/camera");
+            NavManager.NavigateTo(path);
         }
 
         private string GetStyleClass()
