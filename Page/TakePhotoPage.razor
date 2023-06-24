@@ -1,14 +1,16 @@
 ﻿@page "/camera"
 
 
+
+
 @if (!String.IsNullOrEmpty(imageSource))
 {
-    <article class="animate__animated animate__backInDown">
+    <article class="animate__animated @GetPhotoStyle()">
         <img src="@imageSource">
     </article>
 }
 
-<article>
+<article class="animate__animated @GetButtonStyle()">
     <div class="grid">
         <button @onclick="SaveToGallery">Save</button>
         <button @onclick="TakePhoto">Retake</button>

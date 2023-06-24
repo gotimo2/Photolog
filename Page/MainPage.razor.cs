@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Photolog.Helpers;
+
 namespace Photolog.Page
 {
     public partial class MainPage
@@ -7,15 +9,16 @@ namespace Photolog.Page
         [Inject]
         private NavigationManager NavManager { get; set; }
 
-        private bool HasHadWelcome = true;
 
         private bool ClickedButton = false;
 
 
         protected override Task OnInitializedAsync()
         {
-            if (!HasHadWelcome)
+
+            if (!Preferences.Default.Get(PreferencesHelper.HAS_HAD_WELCOME, false))
             {
+                PreferencesHelper.SetDefaultPreferences();
                 NavManager.NavigateTo("/welcome");
             }
 

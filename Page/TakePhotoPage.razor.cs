@@ -15,6 +15,8 @@ namespace Photolog.Page
 
         private FileResult lastPhoto { get; set; }
 
+        private bool done { get; set; } = false; 
+
         protected override async Task OnInitializedAsync()
         {
             await TakePhoto();
@@ -24,18 +26,19 @@ namespace Photolog.Page
         {
             imageSource = null;
             lastPhoto = null;
+            done = false;
             await EnsurePhotoPossible();
             lastPhoto = await MediaPicker.CapturePhotoAsync();
             if (lastPhoto == null)
             {
-                NavManager.NavigateTo("/");
+                NavManager.NavigateTo("/error");
+                ErrorHolder.CurrentError = "Failed to take a photo.";
                 return;
             }
             imageSource = await SaveToCache(lastPhoto);
             StateHasChanged();
             await base.OnInitializedAsync();
         }
-
 
 
         private async Task EnsurePhotoPossible()
@@ -65,13 +68,20 @@ namespace Photolog.Page
             }
         }
 
-
-
-
         private async Task SaveToGallery()
         {
-            await SaveToGallery(lastPhoto);
+            done = true;
+            StateHasChanged();
+            var task = SaveToGallery(lastPhoto);
+            Task[] taskArray = new Task[] { task, Task.Delay(1000) };
+            await Task.WhenAll(taskArray);
+
+            NavManager.NavigateTo("/");
+
         }
+
+
+
 
         private async Task SaveToGallery(FileResult photo)
         {
@@ -84,13 +94,17 @@ namespace Photolog.Page
             using Stream sourceStream = await photo.OpenReadAsync();
             using FileStream localFileStream = File.OpenWrite(CachedSource);
             await sourceStream.CopyToAsync(localFileStream);
-            await localFileStream.FlushAsync();
-            localFileStream.Close();
-            var lastImageBytes = File.ReadAllBytes(CachedSource);
+            await localFileStream.DisposeAsync();
+            var lastImageBytes = await File.ReadAllBytesAsync(CachedSource);
             imageSource = Convert.ToBase64String(lastImageBytes);
             imageSource = string.Format("data:image/png;base64,{0}", imageSource);
             return imageSource;
         }
+
+
+        private string GetPhotoStyle() => done ? "animate__zoomOutLeft" : " animate__backInDown";
+
+        private string GetButtonStyle() => done ? "animate__zoomOutRight" : " animate__backInDown";
 
     }
 }
