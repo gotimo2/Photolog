@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.Maui.Controls;
+using NativeMedia;
 using Photolog.Helpers;
 using System.Runtime.CompilerServices;
 
@@ -12,6 +13,8 @@ namespace Photolog.Page
 
         private string imageSource { get; set; }
 
+        private FileResult lastPhoto { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             await TakePhoto();
@@ -20,14 +23,15 @@ namespace Photolog.Page
         private async Task TakePhoto()
         {
             imageSource = null;
+            lastPhoto = null;
             await EnsurePhotoPossible();
-            FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-            if (photo == null)
+            lastPhoto = await MediaPicker.CapturePhotoAsync();
+            if (lastPhoto == null)
             {
                 NavManager.NavigateTo("/");
                 return;
             }
-            imageSource = await SaveToCache(photo);
+            imageSource = await SaveToCache(lastPhoto);
             StateHasChanged();
             await base.OnInitializedAsync();
         }
@@ -61,6 +65,19 @@ namespace Photolog.Page
             }
         }
 
+
+
+
+        private async Task SaveToGallery()
+        {
+            await SaveToGallery(lastPhoto);
+        }
+
+        private async Task SaveToGallery(FileResult photo)
+        {
+            await MediaGallery.SaveAsync(MediaFileType.Image, Path.Combine(FileSystem.CacheDirectory, photo.FileName));
+        }
+
         private async Task<string> SaveToCache(FileResult photo)
         {
             var CachedSource = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
@@ -69,8 +86,8 @@ namespace Photolog.Page
             await sourceStream.CopyToAsync(localFileStream);
             await localFileStream.FlushAsync();
             localFileStream.Close();
-            var imageBytes = File.ReadAllBytes(CachedSource);
-            imageSource = Convert.ToBase64String(imageBytes);
+            var lastImageBytes = File.ReadAllBytes(CachedSource);
+            imageSource = Convert.ToBase64String(lastImageBytes);
             imageSource = string.Format("data:image/png;base64,{0}", imageSource);
             return imageSource;
         }
