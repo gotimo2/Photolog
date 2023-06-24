@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Maui.Controls;
 using NativeMedia;
 using Photolog.Helpers;
-using System.Runtime.CompilerServices;
 
 namespace Photolog.Page
 {
@@ -11,11 +9,11 @@ namespace Photolog.Page
         [Inject]
         private NavigationManager NavManager { get; set; }
 
-        private string imageSource { get; set; }
+        private string ImageSource { get; set; }
 
-        private FileResult lastPhoto { get; set; }
+        private FileResult LastPhoto { get; set; }
 
-        private bool done { get; set; } = false; 
+        private bool Done { get; set; } = false; 
 
         protected override async Task OnInitializedAsync()
         {
@@ -24,20 +22,21 @@ namespace Photolog.Page
 
         private async Task TakePhoto()
         {
-            imageSource = null;
-            lastPhoto = null;
-            done = false;
+            ImageSource = null;
+            LastPhoto = null;
+            Done = false;
             await EnsurePhotoPossible();
-            lastPhoto = await MediaPicker.CapturePhotoAsync();
-            if (lastPhoto == null)
+            await base.OnInitializedAsync();
+
+            LastPhoto = await MediaPicker.CapturePhotoAsync();
+            if (LastPhoto == null)
             {
                 NavManager.NavigateTo("/error");
                 ErrorHolder.CurrentError = "Failed to take a photo.";
                 return;
             }
-            imageSource = await SaveToCache(lastPhoto);
+            ImageSource = await SaveToCache(LastPhoto);
             StateHasChanged();
-            await base.OnInitializedAsync();
         }
 
 
@@ -70,9 +69,9 @@ namespace Photolog.Page
 
         private async Task SaveToGallery()
         {
-            done = true;
+            Done = true;
             StateHasChanged();
-            var task = SaveToGallery(lastPhoto);
+            var task = SaveToGallery(LastPhoto);
             Task[] taskArray = new Task[] { task, Task.Delay(1000) };
             await Task.WhenAll(taskArray);
 
@@ -96,15 +95,15 @@ namespace Photolog.Page
             await sourceStream.CopyToAsync(localFileStream);
             await localFileStream.DisposeAsync();
             var lastImageBytes = await File.ReadAllBytesAsync(CachedSource);
-            imageSource = Convert.ToBase64String(lastImageBytes);
-            imageSource = string.Format("data:image/png;base64,{0}", imageSource);
-            return imageSource;
+            ImageSource = Convert.ToBase64String(lastImageBytes);
+            ImageSource = string.Format("data:image/png;base64,{0}", ImageSource);
+            return ImageSource;
         }
 
 
-        private string GetPhotoStyle() => done ? "animate__zoomOutLeft" : " animate__backInDown";
+        private string GetPhotoStyle() => Done ? "animate__zoomOutLeft" : " animate__backInDown";
 
-        private string GetButtonStyle() => done ? "animate__zoomOutRight" : " animate__backInDown";
+        private string GetButtonStyle() => Done ? "animate__zoomOutRight" : " animate__backInDown";
 
     }
 }

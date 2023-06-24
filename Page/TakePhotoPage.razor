@@ -1,12 +1,9 @@
 ﻿@page "/camera"
 
-
-
-
-@if (!String.IsNullOrEmpty(imageSource))
+@if (!String.IsNullOrEmpty(ImageSource))
 {
     <article class="animate__animated @GetPhotoStyle()">
-        <img src="@imageSource">
+        <img src="@ImageSource">
     </article>
 }
 

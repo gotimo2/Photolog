@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Photolog.Helpers;
+using Plugin.LocalNotification;
 
 namespace Photolog;
 
@@ -12,6 +14,18 @@ public static class MauiProgram
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+			})
+			.UseLocalNotification(config =>
+			{
+				config.AddAndroid(android =>
+				{
+					android.AddChannel(new Plugin.LocalNotification.AndroidOption.NotificationChannelRequest
+					{
+						Id = NotificationScheduler.CHANNEL_NAME,
+						Name = "general",
+						Description = "General photolog notification category"
+					}); ;
+				});
 			});
 
 		builder.Services.AddMauiBlazorWebView();
