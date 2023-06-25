@@ -8,7 +8,7 @@ namespace Photolog.Helpers
 {
     public static class PermissionManager
     {
-        public async static Task<bool> getCameraPermissions()
+        public async static Task<bool> GetCameraPermissions()
         {
             var permissionLevel = await Permissions.CheckStatusAsync<Permissions.Camera>();
 
@@ -33,7 +33,7 @@ namespace Photolog.Helpers
         }
 
 
-        public async static Task<bool> getStorageWritePermissions()
+        public async static Task<bool> GetStorageWritePermissions()
         {
             
 
@@ -62,7 +62,7 @@ namespace Photolog.Helpers
             return false;
         }
 
-        public async static Task<bool> getStorageReadPermissions()
+        public async static Task<bool> GetStorageReadPermissions()
         {
 
 

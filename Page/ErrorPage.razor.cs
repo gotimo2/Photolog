@@ -10,24 +10,13 @@ namespace Photolog.Page
 {
     public partial class ErrorPage
     {
-        [Inject]
-        private NavigationManager navManager { get; set; }
-
-        private bool acknowledged { get; set; } = false;
 
         private string errorMessage;
 
-        private async Task Click()
-        {
-            acknowledged = true;
-            StateHasChanged();
-            await Task.Delay(1000);
-            navManager.NavigateTo("/");
-        }
 
         private string GetStyleClass()
         {
-            if (!acknowledged)
+            if (!Done)
             {
                 return "animate__backInDown";
             }

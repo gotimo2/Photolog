@@ -1,22 +1,52 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Photolog.Helpers;
 
 namespace Photolog.Page
 {
     public partial class SettingsPage
     {
-        [Inject]
-        private NavigationManager NavManager { get; set; }
-        
-        private bool Done = false;
+
+
+        private TimeOnly ReminderTime { get; set; }
+
+        private TimeOnly ResetTime { get; set; }
+
+        private bool EnableReminder { get; set; }
+
+        private bool OngoingReminder { get; set; }
+
+
+
+        protected override Task OnInitializedAsync()
+        {
+            ReminderTime = TimeOnly.Parse(Preferences.Default.Get(PreferencesHelper.REMINDER_TIME, "00:00:00"));
+            ResetTime = TimeOnly.Parse(Preferences.Default.Get(PreferencesHelper.RESET_TIME, "00:00:00"));
+
+            EnableReminder = Preferences.Default.Get<bool>(PreferencesHelper.REMINDER_ENABLED, true);
+            OngoingReminder = Preferences.Default.Get<bool>(PreferencesHelper.ONGOING_REMINDER, false);
+
+            return base.OnInitializedAsync();
+        }
+
+        private async Task SaveSettings()
+        {
+            Preferences.Set(PreferencesHelper.RESET_TIME, ResetTime.ToString());
+            Preferences.Set(PreferencesHelper.REMINDER_TIME, ReminderTime.ToString());
+            Preferences.Set(PreferencesHelper.REMINDER_ENABLED, EnableReminder);
+            Preferences.Set(PreferencesHelper.ONGOING_REMINDER, OngoingReminder);
+            NotificationScheduler.CancelNotification();
+            await NotificationScheduler.Schedule();
+        }
+
+
+
 
         private string GetStyleClass() => Done ? "animate__fadeOutUp" : "animate__fadeInDown";
 
         private async Task Back()
         {
-            Done = true;
-            StateHasChanged();
-            await Task.Delay(1000);
-            NavManager.NavigateTo("/");
+            await SaveSettings();
+            await GoToMainMenu();
         }
     }
 }

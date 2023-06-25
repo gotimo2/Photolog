@@ -6,22 +6,9 @@ namespace Photolog.Page
     public partial class WelcomePage
     {
 
-        [Inject]
-        private NavigationManager NavManager { get; set; }
-
-        private bool clickedButton = false;
-
-        private async Task Click()
-        {
-            clickedButton = true;
-            StateHasChanged();
-            await Task.Delay(1000);
-            NavManager.NavigateTo("/");
-        }
-
         private string GetStyleClass()
         {
-            return clickedButton ? "animate__bounceOutDown" : "animate__backInDown";
+            return Done ? "animate__bounceOutDown" : "animate__backInDown";
         }
 
     }

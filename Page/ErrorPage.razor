@@ -1,7 +1,8 @@
 ﻿@page "/error"
+@inherits BasePage
 
 <article class="animate__animated @GetStyleClass()">
     <h1>Error</h1>
     <h4>There was an error: @errorMessage </h4>
-    <button @onclick="Click">Back to main menu</button>
+    <button @onclick="GoToMainMenu">Back to main menu</button>
 </article>

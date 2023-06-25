@@ -8,30 +8,19 @@ namespace Photolog.Helpers
 {
     public static class DailyPhotoHelper
     {
-        public static bool photoReady()
+        public static bool PhotoReady()
         {
-            var lastPhotoTime = Preferences.Default.Get<DateTime>(PreferencesHelper.LAST_PHOTO_TIME, DateTime.UnixEpoch);
-
-            var selectedPhotoResetTime = TimeOnly.Parse(Preferences.Default.Get<string>(PreferencesHelper.RESET_TIME, "00:00:00"));
-
-            var yesterday = DateTime.Now.AddDays(-1);
-
-            var lastResetTime = yesterday.Date.Add(selectedPhotoResetTime.ToTimeSpan());
-
-            //if (lastPhotoTime > lastResetTime) { return false; };
             return true;
         }
 
         public static TimeSpan TimeUntilPhoto()
         {
-            var selectedPhotoResetTime = TimeOnly.Parse(Preferences.Default.Get<string>(PreferencesHelper.RESET_TIME, "00:00:00"));
-            return selectedPhotoResetTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
+            return PreferencesHelper.ResetTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
         }
 
         public static TimeSpan TimeUntilNotification()
         {
-            var selectedPhotoResetTime = TimeOnly.Parse(Preferences.Default.Get<string>(PreferencesHelper.REMINDER_TIME, "00:00:00"));
-            return selectedPhotoResetTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
+            return PreferencesHelper.ReminderTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
         }
     }
 }

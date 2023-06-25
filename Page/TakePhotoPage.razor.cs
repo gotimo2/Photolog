@@ -6,14 +6,9 @@ namespace Photolog.Page
 {
     public partial class TakePhotoPage
     {
-        [Inject]
-        private NavigationManager NavManager { get; set; }
 
         private string ImageSource { get; set; }
-
         private FileResult LastPhoto { get; set; }
-
-        private bool Done { get; set; } = false; 
 
         protected override async Task OnInitializedAsync()
         {
@@ -44,29 +39,25 @@ namespace Photolog.Page
         {
             if (MediaPicker.Default.IsCaptureSupported == false)
             {
-                ErrorHolder.CurrentError = "This device cannot take a photo.";
-                NavManager.NavigateTo("/error");
+                await DisplayError("This device cannot take a photo.");
                 return false;
             }
 
-            if (await PermissionManager.getCameraPermissions() == false)
+            if (await PermissionManager.GetCameraPermissions() == false)
             {
-                ErrorHolder.CurrentError = "The app has no permission to use the camera. Go to your device's settings to allow Photolog to access the camera.";
-                NavManager.NavigateTo("/error");
+                await DisplayError("The app has no permission to use the camera. Go to your device's settings to allow Photolog to access the camera.");
                 return false;
             }
 
-            if (await PermissionManager.getStorageReadPermissions() == false)
+            if (await PermissionManager.GetStorageReadPermissions() == false)
             {
-                ErrorHolder.CurrentError = "Photolog has no permissions to read storage. Go to your device's settings and allow photolog to access storage.";
-                NavManager.NavigateTo("/error");
+                await DisplayError("Photolog has no permissions to read storage. Go to your device's settings and allow photolog to access storage.");
                 return false;
             }
 
-            if (await PermissionManager.getStorageWritePermissions() == false)
+            if (await PermissionManager.GetStorageWritePermissions() == false)
             {
-                ErrorHolder.CurrentError = "Photolog has no permissions to write to storage. Go to your device's settings and allow photolog to access storage.";
-                NavManager.NavigateTo("/error");
+                await DisplayError("Photolog has no permissions to write to storage. Go to your device's settings and allow photolog to access storage.");
                 return false;
             }
             return true;
@@ -76,22 +67,19 @@ namespace Photolog.Page
         {
             Done = true;
             StateHasChanged();
-            var task = SaveToGallery(LastPhoto);
+            var task = GalleryHelper.SaveToGallery(Path.Combine(FileSystem.CacheDirectory, LastPhoto.FileName));
             Task[] taskArray = new Task[] { task, Task.Delay(1000) };
             await Task.WhenAll(taskArray);
             Preferences.Default.Set(PreferencesHelper.LAST_PHOTO_TIME, DateTime.Now);
-            NotificationScheduler.closeNotification();
+            NotificationScheduler.CancelNotification();
 
-            var time = TimeOnly.Parse(Preferences.Default.Get(PreferencesHelper.RESET_TIME, "00:00:00"));
-            await NotificationScheduler.scheduleNotification(DateTime.Now.Add(NotificationScheduler.TimeUntilNotification()), true);
+            await NotificationScheduler.Schedule();
+ 
+
             NavManager.NavigateTo("/");
         }
 
 
-        private async Task SaveToGallery(FileResult photo)
-        {
-            await MediaGallery.SaveAsync(MediaFileType.Image, Path.Combine(FileSystem.CacheDirectory, photo.FileName));
-        }
 
         private async Task<string> SaveToCache(FileResult photo)
         {

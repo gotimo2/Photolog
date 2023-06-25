@@ -1,8 +1,27 @@
 ﻿@page "/settings"
+@inherits BasePage
 
 <article class="animate__animated @GetStyleClass()">
     <h1>Settings</h1>
+    <label for="resetTime">Reset time</label>
+    <input type="time" id="resetTime" @bind-value="ResetTime" />
 
+    <br />
+    <label for="notificationTime">Notification time</label>
+    <input type="time" id="resetTime" @bind-value="ReminderTime" />
+
+    <br/>
+    <input type="checkbox" id="enableNotification" role="switch" @bind="EnableReminder" />
+    <label for="enableNotification">Enable notification</label>
+
+
+    <br/>
+    <input type="checkbox" id="enableOngoing" role="switch" @bind="OngoingReminder" />
+    <label for="enableOngoing" >Ongoing notification</label>
+
+
+    <br />
+    <br />
     <button @onclick="Back">Back</button>
 </article>
 

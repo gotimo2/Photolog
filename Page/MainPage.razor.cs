@@ -7,21 +7,14 @@ namespace Photolog.Page
     public partial class MainPage
     {
 
-        [Inject]
-        private NavigationManager NavManager { get; set; }
+        private static bool PhotoReady() => DailyPhotoHelper.PhotoReady();
 
-
-        private bool ClickedButton = false;
-
-
-        private bool photoReady() => DailyPhotoHelper.photoReady();
-
-        private string timeUntilPhoto() => DailyPhotoHelper.TimeUntilPhoto().ToFormattedString("HH:mm");
+        private static string TimeUntilPhoto() => DailyPhotoHelper.TimeUntilPhoto().ToFormattedString("HH:mm");
 
         protected override Task OnInitializedAsync()
         {
 
-            if (!Preferences.Default.Get(PreferencesHelper.HAS_HAD_WELCOME, false))
+            if (!PreferencesHelper.HasHadWelcome)
             {
                 PreferencesHelper.SetDefaultPreferences();
                 NavManager.NavigateTo("/welcome");
@@ -32,25 +25,18 @@ namespace Photolog.Page
 
         private async Task OpenCamera()
         {
-            await goTo("/camera");
+            await GoToPage("/camera");
         }
 
         private async Task GoToSettings()
         {
-            await goTo("/settings");
+            await GoToPage("/settings");
         }
 
-        private async Task goTo(string path)
-        {
-            ClickedButton = true;
-            StateHasChanged();
-            await Task.Delay(1000);
-            NavManager.NavigateTo(path);
-        }
 
         private string GetStyleClass()
         {
-            return ClickedButton ? "animate__zoomOut" : "animate__flipInX";
+            return Done ? "animate__zoomOut" : "animate__flipInX";
         }
 
     }

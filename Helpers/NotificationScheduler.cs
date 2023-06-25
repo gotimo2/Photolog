@@ -11,14 +11,10 @@ namespace Photolog.Helpers
     {
         public const string CHANNEL_NAME = "photolog_general";
 
-        private static NotificationRequest lastRequest;
-
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "I CANNOT GET IT TO SHUT UP")]
-        public async static Task scheduleNotification(DateTime scheduledTime, bool isOngoing)
+        public async static Task ScheduleNotification(DateTime scheduledTime, bool isOngoing)
         {
 
-            lastRequest = new NotificationRequest
+            var request = new NotificationRequest
             {
                 Schedule =
                 {
@@ -39,15 +35,12 @@ namespace Photolog.Helpers
 
             };
 
-            await LocalNotificationCenter.Current.Show(lastRequest);
+            await LocalNotificationCenter.Current.Show(request);
         }
 
-        public static void closeNotification()
+        public static void CancelNotification()
         {
-            if (lastRequest != null)
-            {
-                lastRequest.Cancel();
-            }
+            LocalNotificationCenter.Current.CancelAll();
         }
 
         public static TimeSpan TimeUntilNotification()
@@ -55,6 +48,12 @@ namespace Photolog.Helpers
             var selectedPhotoResetTime = TimeOnly.Parse(Preferences.Default.Get<string>(PreferencesHelper.REMINDER_TIME, "00:00:00"));
             return selectedPhotoResetTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
         }
+
+        public static async Task Schedule()
+        {
+            await ScheduleNotification(DateTime.Now.Add(TimeUntilNotification()), Preferences.Default.Get<bool>(PreferencesHelper.ONGOING_REMINDER, false));
+        }
+        
 
     }
 }
