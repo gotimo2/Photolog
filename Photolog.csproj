@@ -54,10 +54,6 @@
         <PackageReference Include="Xamarin.MediaGallery" Version="2.2.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Data\" />
-    </ItemGroup>
-
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
       <PackageReference Include="Xamarin.MediaGallery.Permision.Maui">
         <Version>2.2.1</Version>

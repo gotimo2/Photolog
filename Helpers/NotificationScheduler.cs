@@ -45,13 +45,18 @@ namespace Photolog.Helpers
 
         public static TimeSpan TimeUntilNotification()
         {
-            var selectedPhotoResetTime = TimeOnly.Parse(Preferences.Default.Get<string>(PreferencesHelper.REMINDER_TIME, "00:00:00"));
-            return selectedPhotoResetTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
+            return PreferencesHelper.ReminderTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
         }
 
         public static async Task Schedule()
         {
-            await ScheduleNotification(DateTime.Now.Add(TimeUntilNotification()), Preferences.Default.Get<bool>(PreferencesHelper.ONGOING_REMINDER, false));
+            var TimeNotificationWouldGoOut = DateTime.Now.Add(TimeUntilNotification());
+
+            if (TimeUntilNotification() < DailyPhotoHelper.TimeUntilPhoto())
+            {
+                TimeNotificationWouldGoOut.AddDays(1);
+            }
+            await ScheduleNotification(TimeNotificationWouldGoOut, PreferencesHelper.EnableOngoingReminder) ;
         }
         
 

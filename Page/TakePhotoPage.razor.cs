@@ -73,6 +73,8 @@ namespace Photolog.Page
             Preferences.Default.Set(PreferencesHelper.LAST_PHOTO_TIME, DateTime.Now);
             NotificationScheduler.CancelNotification();
 
+           
+
             await NotificationScheduler.Schedule();
  
 

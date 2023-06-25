@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maui.Controls.Internals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,9 @@ namespace Photolog.Helpers
     {
         public static bool PhotoReady()
         {
-            return true;
+            var momentOfReset = DateTime.Now.Date.Add(PreferencesHelper.ResetTime.ToTimeSpan());
+            if (DateTime.Now > momentOfReset && PreferencesHelper.LastPhotoTime < momentOfReset) { return true; }
+            return false;
         }
 
         public static TimeSpan TimeUntilPhoto()

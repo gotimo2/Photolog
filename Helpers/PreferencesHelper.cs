@@ -16,10 +16,10 @@ namespace Photolog.Helpers
         public const string REMINDER_ENABLED = "reminder_enabled";
         public const string ONGOING_REMINDER = "ongoing_reminder";
 
-        public static TimeOnly LastPhotoTime => TimeOnly.Parse(Preferences.Default.Get<string>(LAST_PHOTO_TIME, "00:00:00"));
+        public static DateTime LastPhotoTime => Preferences.Default.Get<DateTime>(LAST_PHOTO_TIME, DateTime.UnixEpoch);
         public static TimeOnly ReminderTime => TimeOnly.Parse(Preferences.Default.Get<string>(REMINDER_TIME, "00:00:00"));
         public static TimeOnly ResetTime => TimeOnly.Parse(Preferences.Default.Get<string>(RESET_TIME, "00:00:00"));
-        public static bool OngoingReminder => Preferences.Default.Get<bool>(ONGOING_REMINDER, false);
+        public static bool EnableOngoingReminder => Preferences.Default.Get<bool>(ONGOING_REMINDER, false);
         public static bool ReminderEnabled => Preferences.Default.Get<bool>(REMINDER_ENABLED, false);
         public static bool HasHadWelcome => Preferences.Default.Get<bool>(HAS_HAD_WELCOME, false);
 
