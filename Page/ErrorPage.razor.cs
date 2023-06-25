@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Photolog.Helpers;
 
 namespace Photolog.Page
@@ -12,7 +9,6 @@ namespace Photolog.Page
     {
 
         private string errorMessage;
-
 
         private string GetStyleClass()
         {

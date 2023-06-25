@@ -91,5 +91,34 @@ namespace Photolog.Helpers
             return false;
         }
 
+        public async static Task<bool> GetGalleryWritePermissions()
+        {
+
+
+            var permissionLevel = await Permissions.CheckStatusAsync<Permissions.Photos>();
+
+
+            if (permissionLevel != PermissionStatus.Granted)
+            {
+                await Permissions.RequestAsync<Permissions.Photos>();
+
+
+                permissionLevel = await Permissions.CheckStatusAsync<Permissions.Photos>();
+                Console.WriteLine("Permission status: " + permissionLevel);
+            }
+
+            if (permissionLevel == PermissionStatus.Denied || permissionLevel == PermissionStatus.Disabled)
+            {
+                return false;
+            }
+
+            if (permissionLevel == PermissionStatus.Granted)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

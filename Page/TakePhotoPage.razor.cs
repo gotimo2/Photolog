@@ -48,19 +48,7 @@ namespace Photolog.Page
                 await DisplayError("The app has no permission to use the camera. Go to your device's settings to allow Photolog to access the camera.");
                 return false;
             }
-
-            if (await PermissionManager.GetStorageReadPermissions() == false)
-            {
-                await DisplayError("Photolog has no permissions to read storage. Go to your device's settings and allow photolog to access storage.");
-                return false;
-            }
-
-            if (await PermissionManager.GetStorageWritePermissions() == false)
-            {
-                await DisplayError("Photolog has no permissions to write to storage. Go to your device's settings and allow photolog to access storage.");
-                return false;
-            }
-            return true;
+          return true;
         }
 
         private async Task SaveToGallery()
@@ -72,16 +60,9 @@ namespace Photolog.Page
             await Task.WhenAll(taskArray);
             Preferences.Default.Set(PreferencesHelper.LAST_PHOTO_TIME, DateTime.Now);
             NotificationScheduler.CancelNotification();
-
-           
-
             await NotificationScheduler.Schedule();
- 
-
             NavManager.NavigateTo("/");
         }
-
-
 
         private async Task<string> SaveToCache(FileResult photo)
         {

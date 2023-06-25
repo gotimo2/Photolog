@@ -5,8 +5,6 @@ namespace Photolog.Page
 {
     public partial class SettingsPage
     {
-
-
         private TimeOnly ReminderTime { get; set; }
 
         private TimeOnly ResetTime { get; set; }
@@ -37,9 +35,6 @@ namespace Photolog.Page
             NotificationScheduler.CancelNotification();
             await NotificationScheduler.Schedule();
         }
-
-
-
 
         private string GetStyleClass() => Done ? "animate__fadeOutUp" : "animate__fadeInDown";
 

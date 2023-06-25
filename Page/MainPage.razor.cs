@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Maui.Platform;
+﻿using Microsoft.Maui.Platform;
 using Photolog.Helpers;
 
 namespace Photolog.Page
 {
     public partial class MainPage
     {
-
         private static bool PhotoReady() => DailyPhotoHelper.PhotoReady();
 
         private static string TimeUntilPhoto() => DailyPhotoHelper.TimeUntilPhoto().ToFormattedString("HH:mm");
