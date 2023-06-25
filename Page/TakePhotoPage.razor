@@ -5,14 +5,15 @@
     <article class="animate__animated @GetPhotoStyle()">
         <img src="@ImageSource">
     </article>
+    <article class="animate__animated @GetButtonStyle()">
+        <div class="grid">
+            <button @onclick="SaveToGallery">Save</button>
+            <button @onclick="TakePhoto">Retake</button>
+        </div>
+    </article>
 }
 
-<article class="animate__animated @GetButtonStyle()">
-    <div class="grid">
-        <button @onclick="SaveToGallery">Save</button>
-        <button @onclick="TakePhoto">Retake</button>
-    </div>
-</article>
+
 
 
 

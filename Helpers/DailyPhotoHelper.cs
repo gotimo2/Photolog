@@ -18,13 +18,19 @@ namespace Photolog.Helpers
 
             var lastResetTime = yesterday.Date.Add(selectedPhotoResetTime.ToTimeSpan());
 
-            if (lastPhotoTime > lastResetTime) { return false; };
+            //if (lastPhotoTime > lastResetTime) { return false; };
             return true;
         }
 
         public static TimeSpan TimeUntilPhoto()
         {
             var selectedPhotoResetTime = TimeOnly.Parse(Preferences.Default.Get<string>(PreferencesHelper.RESET_TIME, "00:00:00"));
+            return selectedPhotoResetTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
+        }
+
+        public static TimeSpan TimeUntilNotification()
+        {
+            var selectedPhotoResetTime = TimeOnly.Parse(Preferences.Default.Get<string>(PreferencesHelper.REMINDER_TIME, "00:00:00"));
             return selectedPhotoResetTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
         }
     }

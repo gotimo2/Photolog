@@ -81,6 +81,9 @@ namespace Photolog.Page
             await Task.WhenAll(taskArray);
             Preferences.Default.Set(PreferencesHelper.LAST_PHOTO_TIME, DateTime.Now);
             NotificationScheduler.closeNotification();
+
+            var time = TimeOnly.Parse(Preferences.Default.Get(PreferencesHelper.RESET_TIME, "00:00:00"));
+            await NotificationScheduler.scheduleNotification(DateTime.Now.Add(NotificationScheduler.TimeUntilNotification()), true);
             NavManager.NavigateTo("/");
         }
 
@@ -106,7 +109,7 @@ namespace Photolog.Page
 
         private string GetPhotoStyle() => Done ? "animate__zoomOutLeft" : " animate__backInDown";
 
-        private string GetButtonStyle() => Done ? "animate__zoomOutRight" : " animate__backInDown";
+        private string GetButtonStyle() => Done ? "animate__zoomOutRight" : " animate__backInUp";
 
     }
 }
