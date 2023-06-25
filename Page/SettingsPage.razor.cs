@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Photolog.Page
 {
@@ -14,8 +9,7 @@ namespace Photolog.Page
         
         private bool Done = false;
 
-
-        private string GetStyleClass() => Done ? "animate__fadeInDown" : "animate__fadeOutUp";
+        private string GetStyleClass() => Done ? "animate__fadeOutUp" : "animate__fadeInDown";
 
         private async Task Back()
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Maui.Platform;
 using Photolog.Helpers;
 
 namespace Photolog.Page
@@ -12,6 +13,10 @@ namespace Photolog.Page
 
         private bool ClickedButton = false;
 
+
+        private bool photoReady() => DailyPhotoHelper.photoReady();
+
+        private string timeUntilPhoto() => DailyPhotoHelper.TimeUntilPhoto().ToFormattedString("HH:mm");
 
         protected override Task OnInitializedAsync()
         {

@@ -1,6 +1,16 @@
 ﻿@page "/"
 <article class="animate__animated  @GetStyleClass()">
-    <h1>Time to take a picture for today!</h1>
-    <button @onclick="OpenCamera">Open camera</button>
+
+    @if (photoReady())
+    {
+        <h1>Time to take a picture for today!</h1>
+        <button @onclick="OpenCamera">Open camera</button>
+    }
+    else
+    {
+        <h1>Photo taken for today!</h1>
+        <h2>check back in @timeUntilPhoto()</h2>
+        <h3>of course, you could always just use your camera anyways.</h3>
+    }
     <button class="secondary" @onclick="GoToSettings">Settings</button>
 </article>

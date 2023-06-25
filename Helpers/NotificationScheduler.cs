@@ -39,7 +39,10 @@ namespace Photolog.Helpers
 
         public static void closeNotification()
         {
-            lastRequest.Cancel();
+            if (lastRequest != null)
+            {
+                lastRequest.Cancel();
+            }
         }
 
     }
