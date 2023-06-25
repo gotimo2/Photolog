@@ -17,7 +17,14 @@ namespace Photolog.Page
                 PreferencesHelper.SetDefaultPreferences();
                 NavManager.NavigateTo("/welcome");
             }
-
+            Task.Run(async () =>
+            {
+                while (!PhotoReady())
+                {
+                    await Task.Delay(30000);
+                    StateHasChanged();
+                }
+            });
             return base.OnInitializedAsync();
         }
 

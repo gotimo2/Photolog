@@ -13,8 +13,6 @@ namespace Photolog.Page
 
         private bool OngoingReminder { get; set; }
 
-
-
         protected override Task OnInitializedAsync()
         {
             ReminderTime = TimeOnly.Parse(Preferences.Default.Get(PreferencesHelper.REMINDER_TIME, "00:00:00"));
@@ -42,6 +40,12 @@ namespace Photolog.Page
         {
             await SaveSettings();
             await GoToMainMenu();
+        }
+
+        private async Task GoToCredits()
+        {
+            await SaveSettings();
+            await GoToPage("/credits");
         }
     }
 }

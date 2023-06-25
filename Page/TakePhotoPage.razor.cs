@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using NativeMedia;
-using Photolog.Helpers;
+﻿using Photolog.Helpers;
 
 namespace Photolog.Page
 {
