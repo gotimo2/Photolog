@@ -6,22 +6,11 @@
         {
             var permissionLevel = await Permissions.CheckStatusAsync<TPermission>();
 
+            if (permissionLevel == PermissionStatus.Granted) { return true; }
 
-            if (permissionLevel != PermissionStatus.Granted)
-            {
-                await Permissions.RequestAsync<TPermission>();
-                permissionLevel = await Permissions.CheckStatusAsync<TPermission>();
-            }
-
-            if (permissionLevel == PermissionStatus.Denied || permissionLevel == PermissionStatus.Disabled)
-            {
-                return false;
-            }
-
-            if (permissionLevel == PermissionStatus.Granted)
-            {
-                return true;
-            }
+            await Permissions.RequestAsync<TPermission>();
+            permissionLevel = await Permissions.CheckStatusAsync<TPermission>();
+            if (permissionLevel == PermissionStatus.Granted) { return true; }
 
             return false;
         }
