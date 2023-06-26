@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Photolog.Helpers;
+﻿using Photolog.Helpers;
 
 namespace Photolog.Page
 {

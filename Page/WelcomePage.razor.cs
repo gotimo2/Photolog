@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Diagnostics;
-
-namespace Photolog.Page
+﻿namespace Photolog.Page
 {
     public partial class WelcomePage
     {

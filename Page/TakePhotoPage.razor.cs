@@ -18,7 +18,7 @@ namespace Photolog.Page
             ImageSource = null;
             LastPhoto = null;
             Done = false;
-            if (await EnsurePhotoPossible() == false) { return; } 
+            if (await EnsurePhotoPossible() == false) { return; }
             await base.OnInitializedAsync();
 
             LastPhoto = await MediaPicker.CapturePhotoAsync();
@@ -46,7 +46,7 @@ namespace Photolog.Page
                 await DisplayError("The app has no permission to use the camera. Go to your device's settings to allow Photolog to access the camera.");
                 return false;
             }
-          return true;
+            return true;
         }
 
         private async Task SaveToGallery()
