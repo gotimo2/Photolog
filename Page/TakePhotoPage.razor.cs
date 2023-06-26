@@ -41,7 +41,7 @@ namespace Photolog.Page
                 return false;
             }
 
-            if (await PermissionManager.GetCameraPermissions() == false)
+            if (await PermissionManager.EnsurePermission<Permissions.Camera>() == false)
             {
                 await DisplayError("The app has no permission to use the camera. Go to your device's settings to allow Photolog to access the camera.");
                 return false;
@@ -57,8 +57,7 @@ namespace Photolog.Page
             Task[] taskArray = new Task[] { task, Task.Delay(1000) };
             await Task.WhenAll(taskArray);
             Preferences.Default.Set(PreferencesHelper.LAST_PHOTO_TIME, DateTime.Now);
-            NotificationScheduler.CancelNotification();
-            await NotificationScheduler.Schedule();
+            await NotificationScheduler.ReSchedule();
             NavManager.NavigateTo("/");
         }
 

@@ -1,6 +1,9 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using AndroidX.Core.App;
+using AndroidX.Core.Content;
 
 namespace Photolog;
 
@@ -10,6 +13,11 @@ public class MainActivity : MauiAppCompatActivity
 
     protected override void OnCreate(Bundle savedInstanceState)
     {
+        if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.PostNotifications) != Permission.Granted)
+        {
+            ActivityCompat.RequestPermissions(this, new[] { Manifest.Permission.PostNotifications }, 0);
+        }
+
         base.OnCreate(savedInstanceState);
         NativeMedia.Platform.Init(this, savedInstanceState);
     }

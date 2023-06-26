@@ -14,6 +14,7 @@ namespace Photolog.Helpers
         public async static Task ScheduleNotification(DateTime scheduledTime, bool isOngoing)
         {
 
+
             var request = new NotificationRequest
             {
                 Schedule =
@@ -48,17 +49,20 @@ namespace Photolog.Helpers
             return PreferencesHelper.ReminderTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
         }
 
-        public static async Task Schedule()
+        public static async Task ReSchedule()
         {
-            var TimeNotificationWouldGoOut = DateTime.Now.Add(TimeUntilNotification());
-
-            if (TimeUntilNotification() < DailyPhotoHelper.TimeUntilPhoto())
+            LocalNotificationCenter.Current.CancelAll();
+            if (PreferencesHelper.ReminderEnabled)
             {
-                TimeNotificationWouldGoOut.AddDays(1);
+                var TimeNotificationWouldGoOut = DateTime.Now.Add(TimeUntilNotification());
+
+                if (TimeUntilNotification() < DailyPhotoHelper.TimeUntilPhoto())
+                {
+                    TimeNotificationWouldGoOut = TimeNotificationWouldGoOut.AddDays(1);
+                }
+                await ScheduleNotification(TimeNotificationWouldGoOut, PreferencesHelper.EnableOngoingReminder);
             }
-            await ScheduleNotification(TimeNotificationWouldGoOut, PreferencesHelper.EnableOngoingReminder) ;
         }
-        
 
     }
 }

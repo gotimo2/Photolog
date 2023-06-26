@@ -3,108 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Maui.ApplicationModel;
 
 namespace Photolog.Helpers
 {
     public static class PermissionManager
     {
-        public async static Task<bool> GetCameraPermissions()
+        public async static Task<bool> EnsurePermission<TPermission>() where TPermission : Permissions.BasePermission, new()
         {
-            var permissionLevel = await Permissions.CheckStatusAsync<Permissions.Camera>();
-
-            if (permissionLevel != PermissionStatus.Granted)
-            {
-                await Permissions.RequestAsync<Permissions.Camera>();
-
-                permissionLevel = await Permissions.CheckStatusAsync<Permissions.Camera>();
-            }
-
-            if (permissionLevel == PermissionStatus.Denied || permissionLevel == PermissionStatus.Disabled)
-            {
-                return false;
-            }
-
-            if (permissionLevel == PermissionStatus.Granted)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-
-        public async static Task<bool> GetStorageWritePermissions()
-        {
-            
-
-            var permissionLevel = await Permissions.CheckStatusAsync<Permissions.StorageWrite>();
+            var permissionLevel = await Permissions.CheckStatusAsync<TPermission>();
 
 
             if (permissionLevel != PermissionStatus.Granted)
             {
-                await Permissions.RequestAsync<Permissions.StorageWrite>();
-
-               
-                permissionLevel = await Permissions.CheckStatusAsync<Permissions.StorageWrite>();
-                Console.WriteLine("Permission status: " + permissionLevel);
-            }
-
-            if (permissionLevel == PermissionStatus.Denied || permissionLevel == PermissionStatus.Disabled)
-            {
-                return false;
-            }
-
-            if (permissionLevel == PermissionStatus.Granted)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public async static Task<bool> GetStorageReadPermissions()
-        {
-
-
-            var permissionLevel = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
-
-
-            if (permissionLevel != PermissionStatus.Granted)
-            {
-                await Permissions.RequestAsync<Permissions.StorageRead>();
-
-
-                permissionLevel = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
-                Console.WriteLine("Permission status: " + permissionLevel);
-            }
-
-            if (permissionLevel == PermissionStatus.Denied || permissionLevel == PermissionStatus.Disabled)
-            {
-                return false;
-            }
-
-            if (permissionLevel == PermissionStatus.Granted)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public async static Task<bool> GetGalleryWritePermissions()
-        {
-
-
-            var permissionLevel = await Permissions.CheckStatusAsync<Permissions.Photos>();
-
-
-            if (permissionLevel != PermissionStatus.Granted)
-            {
-                await Permissions.RequestAsync<Permissions.Photos>();
-
-
-                permissionLevel = await Permissions.CheckStatusAsync<Permissions.Photos>();
-                Console.WriteLine("Permission status: " + permissionLevel);
+                await Permissions.RequestAsync<TPermission>();
+                permissionLevel = await Permissions.CheckStatusAsync<TPermission>();
             }
 
             if (permissionLevel == PermissionStatus.Denied || permissionLevel == PermissionStatus.Disabled)

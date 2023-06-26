@@ -16,14 +16,7 @@ namespace Photolog.Helpers
             return false;
         }
 
-        public static TimeSpan TimeUntilPhoto()
-        {
-            return PreferencesHelper.ResetTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
-        }
+        public static TimeSpan TimeUntilPhoto() => PreferencesHelper.ResetTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
 
-        public static TimeSpan TimeUntilNotification()
-        {
-            return PreferencesHelper.ReminderTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
-        }
     }
 }

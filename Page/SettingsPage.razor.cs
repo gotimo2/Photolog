@@ -30,8 +30,7 @@ namespace Photolog.Page
             Preferences.Set(PreferencesHelper.REMINDER_TIME, ReminderTime.ToString());
             Preferences.Set(PreferencesHelper.REMINDER_ENABLED, EnableReminder);
             Preferences.Set(PreferencesHelper.ONGOING_REMINDER, OngoingReminder);
-            NotificationScheduler.CancelNotification();
-            await NotificationScheduler.Schedule();
+            await NotificationScheduler.ReSchedule();
         }
 
         private string GetStyleClass() => Done ? "animate__fadeOutUp" : "animate__fadeInDown";
