@@ -54,10 +54,9 @@ namespace Photolog.Page
             Done = true;
             StateHasChanged();
             var task = GalleryHelper.SaveToGallery(Path.Combine(FileSystem.CacheDirectory, LastPhoto.FileName));
-            Task[] taskArray = new Task[] { task, Task.Delay(1000) };
-            await Task.WhenAll(taskArray);
             Preferences.Default.Set(PreferencesHelper.LAST_PHOTO_TIME, DateTime.Now);
-            await NotificationScheduler.ReSchedule();
+            Task[] taskArray = new Task[] { task, Task.Delay(1000), NotificationScheduler.ReSchedule() };
+            await Task.WhenAll(taskArray);
             NavManager.NavigateTo("/");
         }
 

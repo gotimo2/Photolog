@@ -49,13 +49,16 @@ namespace Photolog.Helpers
             LocalNotificationCenter.Current.CancelAll();
             if (PreferencesHelper.ReminderEnabled)
             {
-                var TimeNotificationWouldGoOut = DateTime.Now.Add(TimeUntilNotification());
+                var timeUntilNotificationSent = TimeUntilNotification();
+                var timeNotificationWouldGoOut = DateTime.Now.Add(timeUntilNotificationSent);
+                var timeUntilPhotoReady = DailyPhotoHelper.TimeUntilPhoto();
 
-                if (TimeUntilNotification() < DailyPhotoHelper.TimeUntilPhoto())
+
+                if (timeUntilNotificationSent < timeUntilPhotoReady)
                 {
-                    TimeNotificationWouldGoOut = TimeNotificationWouldGoOut.AddDays(1);
+                    timeNotificationWouldGoOut = timeNotificationWouldGoOut.AddDays(1);
                 }
-                await ScheduleNotification(TimeNotificationWouldGoOut, PreferencesHelper.EnableOngoingReminder);
+                await ScheduleNotification(timeNotificationWouldGoOut, PreferencesHelper.EnableOngoingReminder);
             }
         }
 

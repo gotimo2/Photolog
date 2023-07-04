@@ -28,17 +28,5 @@
             Preferences.Default.Set(ONGOING_REMINDER, false);
         }
 
-        public static bool PreferencesExist()
-
-        {
-            if (!Preferences.Default.ContainsKey(LAST_PHOTO_TIME)) { return false; }
-            if (!Preferences.Default.ContainsKey(RESET_TIME)) { return false; }
-            if (!Preferences.Default.ContainsKey(ONGOING_REMINDER)) { return false; }
-            if (!Preferences.Default.ContainsKey(REMINDER_ENABLED)) { return false; }
-            if (!Preferences.Default.ContainsKey(RESET_TIME)) { return false; }
-            return true;
-        }
-
-
     }
 }

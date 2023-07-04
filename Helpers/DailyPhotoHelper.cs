@@ -9,7 +9,18 @@
             return false;
         }
 
-        public static TimeSpan TimeUntilPhoto() => PreferencesHelper.ResetTime.ToTimeSpan() - DateTime.Now.TimeOfDay;
+        public static TimeSpan TimeUntilPhoto()
+        {
+            TimeSpan resetTime = PreferencesHelper.ResetTime.ToTimeSpan();
+            DateTime now = DateTime.Now;
+            DateTime resetDateTime = new(now.Year, now.Month, now.Day, resetTime.Hours, resetTime.Minutes, resetTime.Seconds);
+            if (resetDateTime <= now)
+            {
+                resetDateTime = resetDateTime.AddDays(1);
+            }
+            return resetDateTime - now;
+        }
+
 
     }
 }

@@ -24,6 +24,7 @@ namespace Photolog.Page
                     await Task.Delay(30000);
                     StateHasChanged();
                 }
+                StateHasChanged();
             });
             return base.OnInitializedAsync();
         }
