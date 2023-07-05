@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Photolog.Helpers;
+﻿using Photolog.Helpers;
 using Plugin.LocalNotification;
 
 namespace Photolog;

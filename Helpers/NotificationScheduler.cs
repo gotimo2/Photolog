@@ -52,8 +52,6 @@ namespace Photolog.Helpers
                 var timeUntilNotificationSent = TimeUntilNotification();
                 var timeNotificationWouldGoOut = DateTime.Now.Add(timeUntilNotificationSent);
                 var timeUntilPhotoReady = DailyPhotoHelper.TimeUntilPhoto();
-
-
                 if (timeUntilNotificationSent < timeUntilPhotoReady)
                 {
                     timeNotificationWouldGoOut = timeNotificationWouldGoOut.AddDays(1);
