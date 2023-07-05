@@ -1,5 +1,6 @@
 ﻿using Photolog.Helpers;
 using Plugin.LocalNotification;
+using Microsoft.Extensions.Logging;
 
 namespace Photolog;
 
@@ -28,7 +29,6 @@ public static class MauiProgram
             });
 
         builder.Services.AddMauiBlazorWebView();
-
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
