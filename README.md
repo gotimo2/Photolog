@@ -12,4 +12,4 @@ because i wanted to take photos more often but always forget to. Just using a re
 
 #### Where?
 
-todo: inset google play link
+You can find photolog on Google Play [here.](https://play.google.com/store/apps/details?id=com.dotshell.photolog)
