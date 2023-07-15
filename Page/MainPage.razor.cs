@@ -9,7 +9,7 @@ namespace Photolog.Page
 
         private static string TimeUntilPhoto() => DailyPhotoHelper.TimeUntilPhoto().ToFormattedString("HH:mm");
 
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
 
             if (!PreferencesHelper.HasHadWelcome)
@@ -17,7 +17,7 @@ namespace Photolog.Page
                 PreferencesHelper.SetDefaultPreferences();
                 NavManager.NavigateTo("/welcome");
             }
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 while (!PhotoReady())
                 {
@@ -26,8 +26,10 @@ namespace Photolog.Page
                 }
                 StateHasChanged();
             });
-            return base.OnInitializedAsync();
+            await NotificationScheduler.ReSchedule();
+            await base.OnInitializedAsync();
         }
+
 
         private async Task OpenCamera()
         {
